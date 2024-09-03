@@ -1,29 +1,33 @@
-Here's a concise LinkedIn post on function overloading in C# with an example:
 
----
+using System;
 
-**Mastering Function Overloading in C#**
-
-Function overloading is a powerful feature in C# that allows methods to share the same name but differ in parameters. This enhances code readability and flexibility, enabling developers to create more intuitive and versatile APIs.
-
-For example:
-
-```csharp
-public void Print(string message)
+namespace FunctionOverloadingExample
 {
-    Console.WriteLine(message);
+    class Program
+    {
+        // Method to print a string
+        public void Print(string message)
+        {
+            Console.WriteLine("String: " + message);
+        }
+
+        // Overloaded method to print an integer
+        public void Print(int number)
+        {
+            Console.WriteLine("Integer: " + number);
+        }
+
+        static void Main(string[] args)
+        {
+            // Creating an instance of the Program class
+            Program program = new Program();
+
+            // Calling the overloaded Print methods
+            program.Print("Hello World");
+            program.Print(42);
+
+            // Keeping the console window open
+            Console.ReadLine();
+        }
+    }
 }
-
-public void Print(int number)
-{
-    Console.WriteLine(number);
-}
-```
-
-With function overloading, you can call `Print("Hello World")` or `Print(42)` seamlessly, each executing the appropriate method based on the parameter type. This approach simplifies code and enhances maintainability. 🚀
-
-#CSharp #Programming #CodingTips #SoftwareDevelopment
-
----
-
-Feel free to adjust it as needed!
