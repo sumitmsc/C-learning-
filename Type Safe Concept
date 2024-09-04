@@ -1,0 +1,33 @@
+
+using System;
+
+namespace TypeSafetyExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Example of type-safe code
+            int number = 10; // Declaring an integer variable
+            string text = "Hello, World!"; // Declaring a string variable
+
+            // Uncommenting the below line will result in a compile-time error
+            // because C# is a type-safe language and does not allow assigning a string to an integer.
+            // number = text;
+
+            Console.WriteLine("Number: " + number);
+            Console.WriteLine("Text: " + text);
+
+            // C# also prevents you from passing the wrong type of argument to a method
+            PrintNumber(number); // This is fine
+            // PrintNumber(text); // This would cause a compile-time error
+        }
+
+        static void PrintNumber(int value)
+        {
+            Console.WriteLine("The number is: " + value);
+        }
+    }
+}
+
+
