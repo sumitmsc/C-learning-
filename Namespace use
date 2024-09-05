@@ -1,0 +1,41 @@
+
+using System;
+
+namespace MyCompany.ProjectA
+{
+    // Class within the ProjectA namespace
+    public class Greeting
+    {
+        public void SayHello()
+        {
+            Console.WriteLine("Hello from Project A!");
+        }
+    }
+}
+
+namespace MyCompany.ProjectB
+{
+    // Class within the ProjectB namespace
+    public class Greeting
+    {
+        public void SayHello()
+        {
+            Console.WriteLine("Hello from Project B!");
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Using classes from different namespaces
+        MyCompany.ProjectA.Greeting greetingA = new MyCompany.ProjectA.Greeting();
+        greetingA.SayHello();  // Output: Hello from Project A!
+
+        MyCompany.ProjectB.Greeting greetingB = new MyCompany.ProjectB.Greeting();
+        greetingB.SayHello();  // Output: Hello from Project B!
+    }
+}
+
+
