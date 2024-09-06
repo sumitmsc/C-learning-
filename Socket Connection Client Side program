@@ -1,0 +1,42 @@
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+class Client
+{
+    static void Main(string[] args)
+    {
+        try
+        {
+            // Create a TCP/IP socket.
+            Socket sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            // Define the server IP and port.
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Loopback, 11000);
+
+            // Connect to the server.
+            sender.Connect(remoteEP);
+            Console.WriteLine("Connected to server.");
+
+            // Send a message to the server.
+            byte[] msg = Encoding.UTF8.GetBytes("Hello Server!");
+            int bytesSent = sender.Send(msg);
+
+            // Receive the server's response.
+            byte[] buffer = new byte[1024];
+            int bytesReceived = sender.Receive(buffer);
+            string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+            
+            Console.WriteLine("Received message from server: " + receivedData);
+
+            // Close the connection.
+            sender.Shutdown(SocketShutdown.Both);
+            sender.Close();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }
+    }
+}
