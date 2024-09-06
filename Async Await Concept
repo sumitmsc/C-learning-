@@ -1,0 +1,26 @@
+using System;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        Console.WriteLine("Starting Main method...");
+
+        // Call an asynchronous method
+        await PerformTaskAsync();
+
+        Console.WriteLine("Main method finished.");
+    }
+
+    // Define an asynchronous method
+    static async Task PerformTaskAsync()
+    {
+        Console.WriteLine("PerformTaskAsync started.");
+
+        // Simulate a delay of 3 seconds
+        await Task.Delay(3000);
+
+        Console.WriteLine("PerformTaskAsync completed after 3 seconds.");
+    }
+}
