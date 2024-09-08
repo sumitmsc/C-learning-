@@ -1,0 +1,26 @@
+using System;
+
+namespace VariableTypes
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int intValue = 123;
+            double doubleValue = 3.14;
+            string stringValue = "Hello";
+            bool boolValue = true;
+
+            // Implicit conversion (from int to double)
+            doubleValue = intValue;
+
+            // Explicit conversion (from double to int)
+            intValue = (int)doubleValue;
+
+            Console.WriteLine("Integer: " + intValue);
+            Console.WriteLine("Double: " + doubleValue);
+            Console.WriteLine("String: " + stringValue);
+            Console.WriteLine("Boolean: " + boolValue);
+        }
+    }
+}
