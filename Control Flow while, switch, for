@@ -1,32 +1,43 @@
-int score = 85;
+using System;
 
-if (score >= 90)
+class Program
 {
-    Console.WriteLine("Grade: A");
-}
-else if (score >= 80)
-{
-    Console.WriteLine("Grade: B");
-}
-else
-{
-    Console.WriteLine("Grade: C");
-}
+    static void Main()
+    {
+        int score = 85;
 
-switch (score / 10)
-{
-    case 9:
-        Console.WriteLine("Excellent!");
-        break;
-    case 8:
-        Console.WriteLine("Great Job!");
-        break;
-    default:
-        Console.WriteLine("Keep Improving!");
-        break;
-}
+        // If-Else control flow
+        if (score >= 90)
+        {
+            Console.WriteLine("Grade: A");
+        }
+        else if (score >= 80)
+        {
+            Console.WriteLine("Grade: B");
+        }
+        else
+        {
+            Console.WriteLine("Grade: C");
+        }
 
-for (int i = 1; i <= 3; i++)
-{
-    Console.WriteLine($"Attempt {i}");
+        // Switch control flow
+        switch (score / 10)
+        {
+            case 9:
+                Console.WriteLine("Excellent!");
+                break;
+            case 8:
+                Console.WriteLine("Great Job!");
+                break;
+            default:
+                Console.WriteLine("Keep Improving!");
+                break;
+        }
+
+        // For loop control flow
+        for (int i = 1; i <= 3; i++)
+        {
+            Console.WriteLine($"Attempt {i}");
+        }
+    }
 }
