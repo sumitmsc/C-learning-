@@ -1,0 +1,32 @@
+int score = 85;
+
+if (score >= 90)
+{
+    Console.WriteLine("Grade: A");
+}
+else if (score >= 80)
+{
+    Console.WriteLine("Grade: B");
+}
+else
+{
+    Console.WriteLine("Grade: C");
+}
+
+switch (score / 10)
+{
+    case 9:
+        Console.WriteLine("Excellent!");
+        break;
+    case 8:
+        Console.WriteLine("Great Job!");
+        break;
+    default:
+        Console.WriteLine("Keep Improving!");
+        break;
+}
+
+for (int i = 1; i <= 3; i++)
+{
+    Console.WriteLine($"Attempt {i}");
+}
