@@ -1,0 +1,41 @@
+using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
+namespace SeleniumExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Set up the Chrome WebDriver
+            IWebDriver driver = new ChromeDriver();
+
+            try
+            {
+                // Navigate to Google's homepage
+                driver.Navigate().GoToUrl("https://www.google.com");
+
+                // Find the search box using its name attribute
+                IWebElement searchBox = driver.FindElement(By.Name("q"));
+
+                // Enter a search query
+                searchBox.SendKeys("Selenium WebDriver");
+
+                // Submit the search form
+                searchBox.Submit();
+
+                // Wait for the search results to load
+                System.Threading.Thread.Sleep(2000);
+
+                // Display the title of the search results page
+                Console.WriteLine("Page title is: " + driver.Title);
+            }
+            finally
+            {
+                // Close the browser
+                driver.Quit();
+            }
+        }
+    }
+}
