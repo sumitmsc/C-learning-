@@ -1,0 +1,92 @@
+using System;
+using System.Collections.Generic;
+
+namespace DataStructuresDemo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // 1. Working with Arrays
+            Console.WriteLine("=== Arrays ===");
+            int[] numbersArray = { 1, 2, 3, 4, 5 };
+            
+            // Accessing elements
+            Console.WriteLine("Array elements:");
+            for (int i = 0; i < numbersArray.Length; i++)
+            {
+                Console.WriteLine($"Element at index {i}: {numbersArray[i]}");
+            }
+            
+            // Arrays are fixed in size
+            Console.WriteLine("\nAttempting to resize the array is not possible directly, a new array must be created.");
+
+            // 2. Working with Lists
+            Console.WriteLine("\n=== Lists ===");
+            List<int> numbersList = new List<int> { 1, 2, 3, 4, 5 };
+            
+            // Adding elements to the list
+            numbersList.Add(6);
+            Console.WriteLine("List elements after adding 6:");
+            foreach (var number in numbersList)
+            {
+                Console.WriteLine(number);
+            }
+            
+            // Removing an element from the list
+            numbersList.Remove(3);
+            Console.WriteLine("\nList elements after removing 3:");
+            foreach (var number in numbersList)
+            {
+                Console.WriteLine(number);
+            }
+
+            // Lists are dynamic and can grow or shrink as needed
+            Console.WriteLine("\nLists are dynamic, allowing for easy addition and removal of elements.");
+
+            // 3. Working with Dictionaries
+            Console.WriteLine("\n=== Dictionaries ===");
+            Dictionary<string, int> ages = new Dictionary<string, int>
+            {
+                { "Alice", 30 },
+                { "Bob", 25 },
+                { "Charlie", 35 }
+            };
+            
+            // Accessing values by key
+            Console.WriteLine("Dictionary elements:");
+            foreach (var kvp in ages)
+            {
+                Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
+            
+            // Adding a new key-value pair
+            ages["David"] = 40;
+            Console.WriteLine("\nDictionary after adding David:");
+            foreach (var kvp in ages)
+            {
+                Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
+
+            // Checking if a key exists
+            if (ages.ContainsKey("Alice"))
+            {
+                Console.WriteLine("\nAlice exists in the dictionary.");
+            }
+            
+            // Removing a key-value pair
+            ages.Remove("Bob");
+            Console.WriteLine("\nDictionary after removing Bob:");
+            foreach (var kvp in ages)
+            {
+                Console.WriteLine($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
+            
+            Console.WriteLine("\nDictionaries provide fast lookups and are perfect for key-value associations.");
+
+            // Ending the program
+            Console.WriteLine("\nPress any key to exit...");
+            Console.ReadKey();
+        }
+    }
+}
