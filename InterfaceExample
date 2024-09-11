@@ -1,0 +1,63 @@
+using System;
+
+namespace InterfaceExample
+{
+    // Define an interface called IVehicle
+    public interface IVehicle
+    {
+        // Interface members - no implementation, just signatures
+        void Start();
+        void Stop();
+        int Speed { get; set; }
+    }
+
+    // Implementing the IVehicle interface in a Car class
+    public class Car : IVehicle
+    {
+        public int Speed { get; set; }
+
+        public void Start()
+        {
+            Console.WriteLine("Car is starting.");
+        }
+
+        public void Stop()
+        {
+            Console.WriteLine("Car is stopping.");
+        }
+    }
+
+    // Implementing the IVehicle interface in a Bike class
+    public class Bike : IVehicle
+    {
+        public int Speed { get; set; }
+
+        public void Start()
+        {
+            Console.WriteLine("Bike is starting.");
+        }
+
+        public void Stop()
+        {
+            Console.WriteLine("Bike is stopping.");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IVehicle myCar = new Car();
+            myCar.Speed = 60;
+            myCar.Start();
+            Console.WriteLine($"Car speed is {myCar.Speed} km/h");
+            myCar.Stop();
+
+            IVehicle myBike = new Bike();
+            myBike.Speed = 30;
+            myBike.Start();
+            Console.WriteLine($"Bike speed is {myBike.Speed} km/h");
+            myBike.Stop();
+        }
+    }
+}
