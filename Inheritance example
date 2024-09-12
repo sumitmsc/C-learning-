@@ -1,0 +1,103 @@
+using System;
+
+namespace InheritanceExample
+{
+    // Base class
+    public class Vehicle
+    {
+        public int Speed { get; set; }
+        public string Color { get; set; }
+
+        // Base class constructor
+        public Vehicle(int speed, string color)
+        {
+            Speed = speed;
+            Color = color;
+            Console.WriteLine("Vehicle constructor called.");
+        }
+
+        // Virtual method that can be overridden by derived classes
+        public virtual void Start()
+        {
+            Console.WriteLine("Vehicle is starting.");
+        }
+
+        // Non-virtual method (cannot be overridden)
+        public void Stop()
+        {
+            Console.WriteLine("Vehicle is stopping.");
+        }
+
+        public void DisplayInfo()
+        {
+            Console.WriteLine($"Speed: {Speed} km/h, Color: {Color}");
+        }
+    }
+
+    // Derived class
+    public class Car : Vehicle
+    {
+        public int Wheels { get; set; }
+
+        // Derived class constructor
+        public Car(int speed, string color, int wheels) : base(speed, color) // Calls base class constructor
+        {
+            Wheels = wheels;
+            Console.WriteLine("Car constructor called.");
+        }
+
+        // Overriding the base class method
+        public override void Start()
+        {
+            Console.WriteLine("Car is starting.");
+        }
+
+        public void DisplayCarInfo()
+        {
+            DisplayInfo();
+            Console.WriteLine($"Wheels: {Wheels}");
+        }
+    }
+
+    // Further derived class
+    public class ElectricCar : Car
+    {
+        public int BatteryCapacity { get; set; }
+
+        // ElectricCar constructor
+        public ElectricCar(int speed, string color, int wheels, int batteryCapacity) 
+            : base(speed, color, wheels) // Calls Car constructor
+        {
+            BatteryCapacity = batteryCapacity;
+            Console.WriteLine("ElectricCar constructor called.");
+        }
+
+        // Overriding the Start method again
+        public override void Start()
+        {
+            Console.WriteLine("Electric car is starting silently.");
+        }
+
+        public void DisplayElectricCarInfo()
+        {
+            DisplayCarInfo();
+            Console.WriteLine($"Battery Capacity: {BatteryCapacity} kWh");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Creating an object of the ElectricCar class
+            ElectricCar tesla = new ElectricCar(250, "Red", 4, 100);
+
+            // Calling methods
+            tesla.Start(); // Calls overridden method in ElectricCar
+            tesla.Stop();  // Calls method from base class Vehicle
+            tesla.DisplayElectricCarInfo(); // Displays details from all classes
+
+            Console.ReadLine();
+        }
+    }
+}
