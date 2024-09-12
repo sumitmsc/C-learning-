@@ -1,0 +1,40 @@
+class FileHandler : IDisposable
+{
+    private StreamWriter _fileWriter;
+
+    public FileHandler(string filePath)
+    {
+        _fileWriter = new StreamWriter(filePath);
+        Console.WriteLine("File opened for writing.");
+    }
+
+    public void WriteToFile(string text)
+    {
+        if (_fileWriter != null)
+        {
+            _fileWriter.WriteLine(text);
+            Console.WriteLine($"Written to file: {text}");
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_fileWriter != null)
+        {
+            _fileWriter.Close();
+            Console.WriteLine("File closed (via Dispose).");
+        }
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        using (FileHandler fileHandler = new FileHandler("example.txt"))
+        {
+            fileHandler.WriteToFile("Hello, IDisposable World!");
+        }
+        // The Dispose method will be called automatically at the end of the using block
+    }
+}
