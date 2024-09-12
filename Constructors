@@ -1,0 +1,62 @@
+using System;
+
+class Person
+{
+    // Fields
+    public string Name;
+    public int Age;
+
+    // Default Constructor
+    public Person()
+    {
+        Name = "Unknown";
+        Age = 0;
+        Console.WriteLine("Default constructor called.");
+    }
+
+    // Parameterized Constructor
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+        Console.WriteLine("Parameterized constructor called.");
+    }
+
+    // Static Constructor
+    static Person()
+    {
+        Console.WriteLine("Static constructor called.");
+    }
+
+    // Copy Constructor
+    public Person(Person other)
+    {
+        Name = other.Name;
+        Age = other.Age;
+        Console.WriteLine("Copy constructor called.");
+    }
+
+    // Method to display person details
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"Name: {Name}, Age: {Age}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Creating an object using the default constructor
+        Person person1 = new Person();
+        person1.DisplayInfo();
+
+        // Creating an object using the parameterized constructor
+        Person person2 = new Person("Alice", 30);
+        person2.DisplayInfo();
+
+        // Creating an object using the copy constructor
+        Person person3 = new Person(person2);
+        person3.DisplayInfo();
+    }
+}
