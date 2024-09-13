@@ -1,0 +1,48 @@
+using System;
+
+// Abstract class
+abstract class Animal
+{
+    // Abstract method (no implementation)
+    public abstract void Sound();
+    
+    // Concrete method (with implementation)
+    public void Sleep()
+    {
+        Console.WriteLine("This animal is sleeping.");
+    }
+}
+
+// Derived class
+class Dog : Animal
+{
+    // Providing implementation for the abstract method
+    public override void Sound()
+    {
+        Console.WriteLine("Bark");
+    }
+}
+
+// Derived class
+class Cat : Animal
+{
+    // Providing implementation for the abstract method
+    public override void Sound()
+    {
+        Console.WriteLine("Meow");
+    }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Creating instances of derived classes
+        Animal dog = new Dog();
+        Animal cat = new Cat();
+        
+        dog.Sound();  // Output: Bark
+        cat.Sound();  // Output: Meow
+        dog.Sleep();  // Output: This animal is sleeping.
+    }
+}
