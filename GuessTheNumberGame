@@ -1,0 +1,93 @@
+using System;
+
+namespace GuessTheNumber
+{
+    class GuessTheNumberGame
+    {
+        private int randomNumber;
+        private int maxAttempts;
+        private int currentAttempts;
+
+        public GuessTheNumberGame(int maxAttempts, int numberRange)
+        {
+            Random random = new Random();
+            randomNumber = random.Next(1, numberRange + 1);
+            this.maxAttempts = maxAttempts;
+            currentAttempts = 0;
+        }
+
+        public bool CanAttempt()
+        {
+            return currentAttempts < maxAttempts;
+        }
+
+        public string MakeGuess(int playerGuess)
+        {
+            currentAttempts++;
+            if (playerGuess == randomNumber)
+            {
+                return "Correct!";
+            }
+            else if (playerGuess < randomNumber)
+            {
+                return "Too low!";
+            }
+            else
+            {
+                return "Too high!";
+            }
+        }
+
+        public bool IsGameOver()
+        {
+            return currentAttempts >= maxAttempts;
+        }
+
+        public int RevealNumber()
+        {
+            return randomNumber;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int maxAttempts = 5;
+            int numberRange = 100;
+
+            GuessTheNumberGame game = new GuessTheNumberGame(maxAttempts, numberRange);
+            Console.WriteLine($"Welcome to 'Guess the Number'! You have {maxAttempts} attempts to guess the number between 1 and {numberRange}.");
+
+            while (game.CanAttempt())
+            {
+                Console.Write("Enter your guess: ");
+                int playerGuess;
+
+                try
+                {
+                    playerGuess = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter a valid number.");
+                    continue;
+                }
+
+                string result = game.MakeGuess(playerGuess);
+                Console.WriteLine(result);
+
+                if (result == "Correct!")
+                {
+                    Console.WriteLine($"Congratulations! You guessed the number in {game.CanAttempt()} attempts.");
+                    break;
+                }
+            }
+
+            if (game.IsGameOver() && game.MakeGuess(0) != "Correct!")
+            {
+                Console.WriteLine($"Game Over! The correct number was {game.RevealNumber()}.");
+            }
+        }
+    }
+}
