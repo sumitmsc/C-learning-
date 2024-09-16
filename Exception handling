@@ -1,0 +1,38 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        try
+        {
+            // Code that may throw an exception
+            int[] numbers = { 1, 2, 3 };
+            Console.WriteLine("Enter an index number:");
+            int index = int.Parse(Console.ReadLine());
+
+            // Attempt to access the array at the provided index
+            Console.WriteLine("Value at the index: " + numbers[index]);
+        }
+        catch (IndexOutOfRangeException ex)
+        {
+            // This block handles index out of range exceptions
+            Console.WriteLine("Error: Index is out of range. " + ex.Message);
+        }
+        catch (FormatException ex)
+        {
+            // This block handles format exceptions (e.g., if input isn't a number)
+            Console.WriteLine("Error: Invalid input format. " + ex.Message);
+        }
+        catch (Exception ex)
+        {
+            // This block handles any other exceptions
+            Console.WriteLine("An unexpected error occurred: " + ex.Message);
+        }
+        finally
+        {
+            // Code here will always execute, regardless of exceptions
+            Console.WriteLine("Execution complete.");
+        }
+    }
+}
