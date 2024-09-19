@@ -1,0 +1,56 @@
+class Program
+{
+    static void Main(string[] args)
+    {
+        InventoryDatabase.InitializeDatabase();
+
+        while (true)
+        {
+            Console.WriteLine("\nInventory Management System");
+            Console.WriteLine("1. Add Item");
+            Console.WriteLine("2. View Items");
+            Console.WriteLine("3. Update Item");
+            Console.WriteLine("4. Delete Item");
+            Console.WriteLine("5. Exit");
+            Console.Write("Enter your choice: ");
+            
+            string choice = Console.ReadLine();
+
+            switch (choice)
+            {
+                case "1":
+                    Console.Write("Enter item name: ");
+                    string name = Console.ReadLine();
+                    Console.Write("Enter item quantity: ");
+                    int quantity = int.Parse(Console.ReadLine());
+                    AddItem(name, quantity);
+                    break;
+                
+                case "2":
+                    ViewItems();
+                    break;
+
+                case "3":
+                    Console.Write("Enter item ID to update: ");
+                    int idToUpdate = int.Parse(Console.ReadLine());
+                    Console.Write("Enter new quantity: ");
+                    int newQuantity = int.Parse(Console.ReadLine());
+                    UpdateItem(idToUpdate, newQuantity);
+                    break;
+
+                case "4":
+                    Console.Write("Enter item ID to delete: ");
+                    int idToDelete = int.Parse(Console.ReadLine());
+                    DeleteItem(idToDelete);
+                    break;
+
+                case "5":
+                    return;
+
+                default:
+                    Console.WriteLine("Invalid choice, please try again.");
+                    break;
+            }
+        }
+    }
+}
