@@ -1,0 +1,12 @@
+public static void UpdateItem(int id, int newQuantity)
+{
+    using (var conn = InventoryDatabase.GetConnection())
+    {
+        string query = "UPDATE items SET quantity = @quantity WHERE id = @id";
+        SQLiteCommand command = new SQLiteCommand(query, conn);
+        command.Parameters.AddWithValue("@id", id);
+        command.Parameters.AddWithValue("@quantity", newQuantity);
+        command.ExecuteNonQuery();
+    }
+    Console.WriteLine($"Item with ID {id} updated to quantity {newQuantity}.");
+}
