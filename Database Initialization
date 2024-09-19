@@ -1,0 +1,32 @@
+using System;
+using System.Data.SQLite;
+
+class InventoryDatabase
+{
+    private static SQLiteConnection sqliteConnection;
+
+    public static SQLiteConnection GetConnection()
+    {
+        if (sqliteConnection == null)
+        {
+            sqliteConnection = new SQLiteConnection("Data Source=inventory.db;Version=3;");
+            sqliteConnection.Open();
+        }
+        return sqliteConnection;
+    }
+
+    public static void InitializeDatabase()
+    {
+        using (var conn = GetConnection())
+        {
+            string createTableQuery = @"
+                CREATE TABLE IF NOT EXISTS items (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    quantity INTEGER NOT NULL
+                )";
+            SQLiteCommand command = new SQLiteCommand(createTableQuery, conn);
+            command.ExecuteNonQuery();
+        }
+    }
+}
