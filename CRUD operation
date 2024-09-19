@@ -1,0 +1,12 @@
+public static void AddItem(string name, int quantity)
+{
+    using (var conn = InventoryDatabase.GetConnection())
+    {
+        string query = "INSERT INTO items (name, quantity) VALUES (@name, @quantity)";
+        SQLiteCommand command = new SQLiteCommand(query, conn);
+        command.Parameters.AddWithValue("@name", name);
+        command.Parameters.AddWithValue("@quantity", quantity);
+        command.ExecuteNonQuery();
+    }
+    Console.WriteLine($"Item '{name}' added to inventory with quantity {quantity}.");
+}
