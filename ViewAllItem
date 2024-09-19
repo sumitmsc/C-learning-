@@ -1,0 +1,15 @@
+public static void ViewItems()
+{
+    using (var conn = InventoryDatabase.GetConnection())
+    {
+        string query = "SELECT * FROM items";
+        SQLiteCommand command = new SQLiteCommand(query, conn);
+        using (SQLiteDataReader reader = command.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                Console.WriteLine($"ID: {reader["id"]}, Name: {reader["name"]}, Quantity: {reader["quantity"]}");
+            }
+        }
+    }
+}
