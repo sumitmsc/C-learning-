@@ -1,0 +1,11 @@
+public static void DeleteItem(int id)
+{
+    using (var conn = InventoryDatabase.GetConnection())
+    {
+        string query = "DELETE FROM items WHERE id = @id";
+        SQLiteCommand command = new SQLiteCommand(query, conn);
+        command.Parameters.AddWithValue("@id", id);
+        command.ExecuteNonQuery();
+    }
+    Console.WriteLine($"Item with ID {id} deleted from inventory.");
+}
