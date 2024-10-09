@@ -1,0 +1,67 @@
+image: mcr.microsoft.com/dotnet/sdk:7.0
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOTNET_ROOT: "/usr/share/dotnet"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+
+before_script:
+  - export PATH="$PATH:$DOTNET_ROOT"
+
+# Build the application
+build:
+  stage: build
+  script:
+    - echo "Restoring NuGet packages..."
+    - dotnet restore
+    - echo "Building the application..."
+    - dotnet build --configuration Release
+  artifacts:
+    paths:
+      - bin/
+
+# Run unit tests
+unit_tests:
+  stage: test
+  script:
+    - echo "Running unit tests..."
+    - dotnet test --configuration Release
+
+# Run Selenium automation tests
+selenium_tests:
+  stage: test
+  script:
+    - echo "Running Selenium tests..."
+    - dotnet test Tests/SeleniumTests/SeleniumTests.csproj --configuration Release
+  artifacts:
+    when: always
+    paths:
+      - bin/
+    reports:
+      junit: TestResults.xml
+
+# Deploy to staging
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploying to Staging environment..."
+    # Insert deployment steps here
+  environment:
+    name: staging
+    url: https://staging.example.com
+
+# Deploy to production
+deploy_production:
+  stage: deploy
+  when: manual
+  script:
+    - echo "Deploying to Production environment..."
+    # Insert deployment steps here
+  environment:
+    name: production
+    url: https://www.example.com
