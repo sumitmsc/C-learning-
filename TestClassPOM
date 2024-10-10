@@ -1,0 +1,43 @@
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
+namespace SeleniumPOM.Tests
+{
+    public class LoginTest
+    {
+        IWebDriver driver;
+
+        [SetUp]
+        public void Setup()
+        {
+            // Initialize the WebDriver
+            driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+        }
+
+        [Test]
+        public void TestLogin()
+        {
+            // Navigate to the login page
+            driver.Navigate().GoToUrl("http://example.com/login");
+
+            // Create an instance of the LoginPage object
+            LoginPage loginPage = new LoginPage(driver);
+
+            // Interact with the page using the Page Object methods
+            loginPage.EnterUsername("testuser");
+            loginPage.EnterPassword("testpassword");
+            loginPage.ClickLoginButton();
+
+            // Add assertions here if needed (e.g., check if login was successful)
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            // Close the browser after the test
+            driver.Quit();
+        }
+    }
+}
