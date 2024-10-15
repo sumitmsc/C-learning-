@@ -1,0 +1,57 @@
+using System;
+
+public class Car
+{
+    // Properties
+    public string Make { get; set; }
+    public string Model { get; set; }
+    public static int TotalCars { get; set; }
+
+    // Default Constructor
+    public Car()
+    {
+        Make = "Unknown";
+        Model = "Unknown";
+    }
+
+    // Parameterized Constructor
+    public Car(string make, string model)
+    {
+        Make = make;
+        Model = model;
+    }
+
+    // Static Constructor (called once for static members)
+    static Car()
+    {
+        TotalCars = 0;
+    }
+
+    // Constructor Chaining
+    public Car(string make) : this(make, "Model not provided")
+    {
+    }
+
+    public void DisplayCarInfo()
+    {
+        Console.WriteLine($"Make: {Make}, Model: {Model}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Using default constructor
+        Car car1 = new Car();
+        car1.DisplayCarInfo();
+
+        // Using parameterized constructor
+        Car car2 = new Car("Toyota", "Corolla");
+        car2.DisplayCarInfo();
+
+        // Constructor chaining example
+        Car car3 = new Car("Honda");
+        car3.DisplayCarInfo();
+    }
+}
