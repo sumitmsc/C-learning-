@@ -1,0 +1,61 @@
+using System;
+using System.Data.SqlClient;  // Required for working with SQL
+
+namespace DbConnectionExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // 1. Define the connection string.
+            // Replace "ServerName", "DatabaseName", "Username", and "Password" with your actual database credentials.
+            string connectionString = "Data Source=ServerName;Initial Catalog=DatabaseName;User ID=Username;Password=YourPassword";
+
+            // 2. Create a connection object.
+            // This object allows us to establish a connection to the database.
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    // 3. Open the connection.
+                    connection.Open();
+                    Console.WriteLine("Connection Opened Successfully!");
+
+                    // 4. Prepare a SQL query.
+                    // This is a basic query to select all records from a table.
+                    string query = "SELECT * FROM YourTable";
+
+                    // 5. Create a SqlCommand object to execute the query.
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    // 6. Execute the query and store the results in a SqlDataReader.
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // 7. Read and display the data from the reader.
+                    while (reader.Read())
+                    {
+                        // Assuming there is a column named "ColumnName" in your table.
+                        Console.WriteLine(reader["ColumnName"].ToString());
+                    }
+
+                    // Close the reader once we're done with the data.
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that occur during the connection or data retrieval.
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    // 8. Always close the connection when finished to free up resources.
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        connection.Close();
+                        Console.WriteLine("Connection Closed.");
+                    }
+                }
+            }
+        }
+    }
+}
