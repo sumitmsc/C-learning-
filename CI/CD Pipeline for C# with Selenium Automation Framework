@@ -1,0 +1,69 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Pulling the code from version control (Git)
+                git branch: 'main', url: 'https://github.com/your-repo/your-csharp-selenium-project.git'
+            }
+        }
+
+        stage('Restore NuGet Packages') {
+            steps {
+                // Restoring necessary packages
+                bat 'nuget restore'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the C# solution
+                bat '"C:/Program Files/dotnet/dotnet.exe" build your-solution.sln'
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                // Running NUnit tests
+                bat '"C:/Program Files/dotnet/dotnet.exe" test your-test-project.csproj --logger:trx'
+            }
+
+            post {
+                always {
+                    // Publish test results
+                    nunit testResultsPattern: '**/TestResult.xml'
+                }
+            }
+        }
+
+        stage('Run Selenium Tests') {
+            steps {
+                // Running the Selenium test cases
+                bat '"C:/Program Files/dotnet/dotnet.exe" test your-selenium-tests.csproj --logger:trx'
+            }
+
+            post {
+                always {
+                    // Publish test results
+                    nunit testResultsPattern: '**/SeleniumTestResult.xml'
+                }
+            }
+        }
+
+        stage('Publish Artifacts') {
+            steps {
+                // Archive artifacts
+                archiveArtifacts artifacts: '**/bin/Release/**', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up workspace after the build
+            cleanWs()
+        }
+    }
+}
+
