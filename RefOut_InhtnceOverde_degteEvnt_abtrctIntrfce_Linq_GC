@@ -1,0 +1,164 @@
+using System;
+
+// 1. Demonstrating ref and out keywords
+public class RefOutExample
+{
+    public static void RefMethod(ref int x)
+    {
+        x = x + 10; // Modifies the original value
+    }
+
+    public static void OutMethod(out int x)
+    {
+        x = 20; // No need to initialize before passing
+    }
+}
+
+// 2. Inheritance and Overriding in C#
+public class BaseClass
+{
+    public virtual void Display()
+    {
+        Console.WriteLine("This is the base class method.");
+    }
+}
+
+public class DerivedClass : BaseClass
+{
+    // Overriding base class method
+    public override void Display()
+    {
+        Console.WriteLine("This is the derived class method.");
+    }
+}
+
+// 3. Delegates and Events Example
+public delegate void Notify(); // Delegate declaration
+
+public class Process
+{
+    public event Notify ProcessCompleted; // Event declaration
+
+    public void StartProcess()
+    {
+        Console.WriteLine("Process started...");
+        // Raise event
+        OnProcessCompleted();
+    }
+
+    protected virtual void OnProcessCompleted()
+    {
+        if (ProcessCompleted != null)
+        {
+            ProcessCompleted.Invoke();
+        }
+    }
+}
+
+// 4. Abstract Class and Interface
+public abstract class Animal
+{
+    public abstract void MakeSound(); // Abstract method
+
+    public void Sleep() // Non-abstract method
+    {
+        Console.WriteLine("Sleeping...");
+    }
+}
+
+public interface IWalk
+{
+    void Walk(); // Interface method
+}
+
+public class Dog : Animal, IWalk
+{
+    public override void MakeSound()
+    {
+        Console.WriteLine("Dog barks.");
+    }
+
+    public void Walk()
+    {
+        Console.WriteLine("Dog walks.");
+    }
+}
+
+// 5. LINQ Example
+using System.Linq;
+
+public class LINQExample
+{
+    public static void QueryWithLINQ()
+    {
+        int[] numbers = { 1, 2, 3, 4, 5, 6 };
+
+        var evenNumbers = from num in numbers
+                          where num % 2 == 0
+                          select num;
+
+        Console.WriteLine("Even numbers using LINQ:");
+        foreach (var num in evenNumbers)
+        {
+            Console.WriteLine(num);
+        }
+    }
+}
+
+// 6. Garbage Collection Example
+public class GarbageCollectionExample
+{
+    ~GarbageCollectionExample() // Destructor to see when GC runs
+    {
+        Console.WriteLine("Garbage collector called!");
+    }
+
+    public static void TestGC()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            GarbageCollectionExample obj = new GarbageCollectionExample();
+        }
+        GC.Collect(); // Force garbage collection
+    }
+}
+
+public class Program
+{
+    static void Main(string[] args)
+    {
+        // 1. Ref and Out example
+        int value = 5;
+        Console.WriteLine($"Initial value: {value}");
+        RefOutExample.RefMethod(ref value);
+        Console.WriteLine($"After RefMethod: {value}");
+
+        int outValue;
+        RefOutExample.OutMethod(out outValue);
+        Console.WriteLine($"After OutMethod: {outValue}");
+
+        // 2. Inheritance and Overriding
+        BaseClass baseObj = new BaseClass();
+        baseObj.Display(); // Calls base class method
+
+        DerivedClass derivedObj = new DerivedClass();
+        derivedObj.Display(); // Calls overridden method in derived class
+
+        // 3. Delegates and Events
+        Process process = new Process();
+        process.ProcessCompleted += () => Console.WriteLine("Process completed!");
+        process.StartProcess();
+
+        // 4. Abstract Class and Interface
+        Dog dog = new Dog();
+        dog.MakeSound();
+        dog.Sleep();
+        dog.Walk();
+
+        // 5. LINQ example
+        LINQExample.QueryWithLINQ();
+
+        // 6. Garbage Collection
+        GarbageCollectionExample.TestGC();
+    }
+}
