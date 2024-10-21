@@ -1,0 +1,59 @@
+// Import necessary libraries
+using NUnit.Framework;          // NUnit framework for writing and running tests
+using OpenQA.Selenium;         // Selenium WebDriver
+using OpenQA.Selenium.Chrome;  // Chrome browser driver
+using System;                  // For system-level functionality
+
+namespace SeleniumNUnitExample
+{
+    // Marking the class as a Test Fixture
+    // NUnit will identify this class as containing tests
+    [TestFixture]
+    public class GoogleSearchTest
+    {
+        // Declare the IWebDriver instance at the class level so it can be accessed across different methods
+        IWebDriver driver;
+
+        // Setup method to initialize the browser before each test
+        [SetUp]
+        public void Setup()
+        {
+            // Initialize the Chrome WebDriver
+            driver = new ChromeDriver();
+
+            // Maximize the browser window
+            driver.Manage().Window.Maximize();
+        }
+
+        // Main test case for the Google search functionality
+        [Test]
+        public void SearchTest()
+        {
+            // Navigate to Google's homepage
+            driver.Navigate().GoToUrl("https://www.google.com");
+
+            // Find the search box using its 'name' attribute
+            IWebElement searchBox = driver.FindElement(By.Name("q"));
+
+            // Enter the search term into the search box
+            searchBox.SendKeys("NUnit with Selenium C#");
+
+            // Submit the search form (acts like hitting 'Enter')
+            searchBox.Submit();
+
+            // Wait for some time for the page to load, if necessary (e.g., using explicit waits)
+
+            // Validate that the page title contains the expected text
+            // This is an assertion using NUnit's Assert class
+            Assert.IsTrue(driver.Title.Contains("NUnit with Selenium C#"), "The page title does not contain the expected search term.");
+        }
+
+        // TearDown method to close the browser after each test
+        [TearDown]
+        public void Close()
+        {
+            // Quit the browser and clean up the WebDriver instance
+            driver.Quit();
+        }
+    }
+}
