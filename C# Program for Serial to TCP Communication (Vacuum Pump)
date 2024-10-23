@@ -1,0 +1,75 @@
+using System;
+using System.IO.Ports;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
+
+class SerialTcpCommunication
+{
+    private static SerialPort serialPort;
+    private static TcpListener tcpListener;
+    private static TcpClient tcpClient;
+
+    static void Main(string[] args)
+    {
+        // Initialize Serial Port (for vacuum pump)
+        serialPort = new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One);
+        serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialDataReceived);
+        serialPort.Open();
+
+        // Start TCP Listener
+        tcpListener = new TcpListener(IPAddress.Any, 5000);
+        tcpListener.Start();
+
+        Console.WriteLine("Listening for TCP connections...");
+        tcpClient = tcpListener.AcceptTcpClient();
+        Console.WriteLine("TCP Client connected!");
+
+        // Start a thread to handle TCP communication
+        Thread tcpThread = new Thread(HandleTcpCommunication);
+        tcpThread.Start();
+
+        // Keep the program running
+        Console.WriteLine("Press Enter to exit...");
+        Console.ReadLine();
+
+        // Cleanup
+        tcpClient.Close();
+        tcpListener.Stop();
+        serialPort.Close();
+    }
+
+    // Handle data received on serial port (from vacuum pump)
+    private static void SerialDataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+        // Read data from the serial port
+        string serialData = serialPort.ReadExisting();
+        Console.WriteLine("Data received from vacuum pump (Serial): " + serialData);
+
+        // Send the serial data to the TCP client
+        if (tcpClient != null && tcpClient.Connected)
+        {
+            NetworkStream networkStream = tcpClient.GetStream();
+            byte[] buffer = Encoding.ASCII.GetBytes(serialData);
+            networkStream.Write(buffer, 0, buffer.Length);
+        }
+    }
+
+    // Handle TCP communication (data received from client)
+    private static void HandleTcpCommunication()
+    {
+        NetworkStream networkStream = tcpClient.GetStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = networkStream.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            string tcpData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            Console.WriteLine("Data received from TCP client: " + tcpData);
+
+            // Send the TCP data to the vacuum pump (serial port)
+            serialPort.Write(tcpData);
+        }
+    }
+}
