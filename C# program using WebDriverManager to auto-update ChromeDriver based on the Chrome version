@@ -1,0 +1,26 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
+
+class ChromeAutomation
+{
+    static void Main(string[] args)
+    {
+        // Automatically download and setup the correct version of ChromeDriver
+        new DriverManager().SetUpDriver(new ChromeConfig());
+
+        // Initialize WebDriver
+        IWebDriver driver = new ChromeDriver();
+
+        // Navigate to a website
+        driver.Navigate().GoToUrl("https://www.example.com");
+
+        // Perform operations with Selenium
+        var title = driver.Title;
+        Console.WriteLine($"Title of the page is: {title}");
+
+        // Close the browser
+        driver.Quit();
+    }
+}
