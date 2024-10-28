@@ -1,0 +1,64 @@
+using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
+class DropdownSelectionTest
+{
+    static void Main()
+    {
+        // Initialize WebDriver
+        IWebDriver driver = new ChromeDriver();
+        driver.Navigate().GoToUrl("https://example.com"); // Replace with your web app URL
+        driver.Manage().Window.Maximize();
+
+        try
+        {
+            // Locate the drop-down element
+            IWebElement dropdownElement = driver.FindElement(By.Id("dropdownId")); // Replace with your dropdown's ID
+
+            // Initialize SelectElement
+            SelectElement dropdown = new SelectElement(dropdownElement);
+
+            // Select by Value
+            SelectByValue(dropdown, "value1");
+
+            // Select by Visible Text
+            SelectByText(dropdown, "Option Text");
+
+            // Select by Index
+            SelectByIndex(dropdown, 2);
+
+            Console.WriteLine("Drop-down selection test completed successfully.");
+        }
+        catch (NoSuchElementException ex)
+        {
+            Console.WriteLine("Element not found: " + ex.Message);
+        }
+        finally
+        {
+            driver.Quit();
+        }
+    }
+
+    // Method to select by Value
+    static void SelectByValue(SelectElement dropdown, string value)
+    {
+        dropdown.SelectByValue(value);
+        Console.WriteLine($"Selected option by value: {value}");
+    }
+
+    // Method to select by Visible Text
+    static void SelectByText(SelectElement dropdown, string text)
+    {
+        dropdown.SelectByText(text);
+        Console.WriteLine($"Selected option by text: {text}");
+    }
+
+    // Method to select by Index
+    static void SelectByIndex(SelectElement dropdown, int index)
+    {
+        dropdown.SelectByIndex(index);
+        Console.WriteLine($"Selected option by index: {index}");
+    }
+}
