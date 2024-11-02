@@ -1,0 +1,57 @@
+using System;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
+
+namespace DynamicComponentAutomation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Initialize Chrome WebDriver
+            IWebDriver driver = new ChromeDriver();
+            driver.Navigate().GoToUrl("https://example.com");
+
+            // Use Explicit Wait for dynamic elements
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            try
+            {
+                // Example 1: Selecting an element by stable attribute (ID or Name)
+                IWebElement usernameField = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("username")));
+                usernameField.SendKeys("myUsername");
+
+                // Example 2: CSS Selector with multiple attributes
+                IWebElement loginButton = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector("button[aria-label='login'][type='submit']")));
+                loginButton.Click();
+
+                // Example 3: Dynamic XPath with contains() for partial matching
+                IWebElement dynamicComponent = wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//div[contains(@class, 'dynamic-element')]")));
+                dynamicComponent.Click();
+
+                // Example 4: Using Relative Locator (above) with Selenium 4
+                // Requires Selenium.Support package for By.RelativeLocators
+                IWebElement targetElement = wait.Until(ExpectedConditions.ElementIsVisible(By.Id("known-element")));
+                IWebElement relativeElement = driver.FindElement(By.Relative(By.TagName("input")).Above(targetElement));
+                relativeElement.SendKeys("value");
+
+                Console.WriteLine("Automation steps executed successfully.");
+            }
+            catch (NoSuchElementException ex)
+            {
+                Console.WriteLine("Element not found: " + ex.Message);
+            }
+            catch (WebDriverTimeoutException ex)
+            {
+                Console.WriteLine("Element loading timeout: " + ex.Message);
+            }
+            finally
+            {
+                // Close browser
+                driver.Quit();
+            }
+        }
+    }
+}
