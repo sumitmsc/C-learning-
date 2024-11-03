@@ -1,0 +1,38 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using System;
+
+class SeleniumMemoryManagement
+{
+    static void Main(string[] args)
+    {
+        IWebDriver driver = null;
+
+        try
+        {
+            // Initialize the ChromeDriver
+            driver = new ChromeDriver();
+
+            // Set explicit wait
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            driver.Navigate().GoToUrl("https://example.com");
+
+            // Wait for an element to be visible
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("someElement")));
+
+            // Your test logic here
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        finally
+        {
+            // Clean up and release resources
+            driver?.Quit();
+            GC.Collect(); // Suggest garbage collection
+        }
+    }
+}
