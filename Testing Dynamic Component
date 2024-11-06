@@ -1,0 +1,37 @@
+
+using System;
+using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
+namespace SeleniumAutomation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Initialize WebDriver
+            IWebDriver driver = new ChromeDriver();
+            driver.Navigate().GoToUrl("https://example.com");
+
+            // Locate the dynamic input field (e.g., a search box with autocomplete)
+            IWebElement searchBox = driver.FindElement(By.Id("search"));
+
+            // Enter text to trigger the dynamic component
+            searchBox.SendKeys("dynamic");
+
+            // Wait for suggestions to load (you can adjust the wait time as needed)
+            Thread.Sleep(2000);
+
+            // Locate the dynamic list and select an option
+            IWebElement firstOption = driver.FindElement(By.CssSelector(".autocomplete-item"));
+            firstOption.Click();
+
+            // Verify the result or perform additional actions
+            Console.WriteLine("Dynamic component automation completed.");
+
+            // Close the browser
+            driver.Quit();
+        }
+    }
+}
