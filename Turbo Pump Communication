@@ -1,0 +1,116 @@
+using System;
+using System.IO.Ports;
+using System.Threading;
+
+class TurboPumpController
+{
+    private SerialPort _serialPort;
+
+    public TurboPumpController(string portName, int baudRate)
+    {
+        _serialPort = new SerialPort(portName, baudRate)
+        {
+            Parity = Parity.None,
+            DataBits = 8,
+            StopBits = StopBits.One,
+            Handshake = Handshake.None,
+            ReadTimeout = 2000,
+            WriteTimeout = 2000
+        };
+    }
+
+    public void OpenConnection()
+    {
+        if (!_serialPort.IsOpen)
+        {
+            _serialPort.Open();
+            Console.WriteLine("Connection to turbo pump established.");
+        }
+    }
+
+    public void CloseConnection()
+    {
+        if (_serialPort.IsOpen)
+        {
+            _serialPort.Close();
+            Console.WriteLine("Connection to turbo pump closed.");
+        }
+    }
+
+    public void SendCommand(string command)
+    {
+        if (_serialPort.IsOpen)
+        {
+            _serialPort.WriteLine(command);
+            Console.WriteLine($"Command sent: {command}");
+        }
+        else
+        {
+            Console.WriteLine("Serial port is not open.");
+        }
+    }
+
+    public string ReadResponse()
+    {
+        try
+        {
+            string response = _serialPort.ReadLine();
+            Console.WriteLine($"Response received: {response}");
+            return response;
+        }
+        catch (TimeoutException)
+        {
+            Console.WriteLine("No response received (timeout).");
+            return null;
+        }
+    }
+
+    public void StartPump()
+    {
+        SendCommand("START"); // Replace "START" with the actual command for your pump
+    }
+
+    public void StopPump()
+    {
+        SendCommand("STOP"); // Replace "STOP" with the actual command for your pump
+    }
+
+    public void CheckPumpStatus()
+    {
+        SendCommand("STATUS"); // Replace "STATUS" with the actual command for your pump
+        Thread.Sleep(500); // Wait a moment for the response
+        ReadResponse();
+    }
+
+    static void Main(string[] args)
+    {
+        TurboPumpController pumpController = new TurboPumpController("COM3", 9600); // Adjust COM port and baud rate as needed
+
+        try
+        {
+            pumpController.OpenConnection();
+
+            // Start the pump
+            pumpController.StartPump();
+            Thread.Sleep(1000);
+
+            // Check the pump status
+            pumpController.CheckPumpStatus();
+            Thread.Sleep(1000);
+
+            // Stop the pump
+            pumpController.StopPump();
+            Thread.Sleep(1000);
+
+            pumpController.CloseConnection();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
+        finally
+        {
+            pumpController.CloseConnection();
+        }
+    }
+}
