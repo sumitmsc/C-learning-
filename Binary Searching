@@ -1,0 +1,42 @@
+using System;
+
+class BinarySearch
+{
+    // Binary Search function
+    static int PerformBinarySearch(int[] array, int target)
+    {
+        int left = 0, right = array.Length - 1;
+
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2; // Calculate mid to avoid overflow
+
+            // Check if the target is at mid
+            if (array[mid] == target)
+                return mid;
+
+            // If target is greater, ignore the left half
+            if (array[mid] < target)
+                left = mid + 1;
+            else // If target is smaller, ignore the right half
+                right = mid - 1;
+        }
+
+        // Target not found
+        return -1;
+    }
+
+    static void Main()
+    {
+        int[] numbers = { 2, 4, 7, 10, 23, 45, 78 }; // Sorted array
+        Console.WriteLine("Enter the number to search: ");
+        int target = int.Parse(Console.ReadLine());
+
+        int result = PerformBinarySearch(numbers, target);
+
+        if (result != -1)
+            Console.WriteLine($"Number found at index {result}");
+        else
+            Console.WriteLine("Number not found in the array.");
+    }
+}
