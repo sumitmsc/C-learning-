@@ -1,0 +1,22 @@
+using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter;
+
+namespace SeleniumParallelTests.Utilities
+{
+    public class ExtentReportManager
+    {
+        private static ExtentReports extent;
+        private static ExtentHtmlReporter htmlReporter;
+
+        public static ExtentReports GetExtentReports()
+        {
+            if (extent == null)
+            {
+                htmlReporter = new ExtentHtmlReporter("Reports/extentReport.html");
+                extent = new ExtentReports();
+                extent.AttachReporter(htmlReporter);
+            }
+            return extent;
+        }
+    }
+}

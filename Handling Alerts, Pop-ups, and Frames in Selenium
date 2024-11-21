@@ -1,0 +1,102 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+using System.Collections.Generic;
+
+namespace SeleniumExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Initialize Chrome WebDriver
+            IWebDriver driver = new ChromeDriver();
+
+            try
+            {
+                // Navigate to a sample page
+                driver.Navigate().GoToUrl("http://example.com");
+
+                // Maximize the browser window
+                driver.Manage().Window.Maximize();
+
+                // Handle JavaScript Alert
+                HandleAlert(driver);
+
+                // Handle Pop-up Window
+                HandlePopupWindow(driver);
+
+                // Handle Frames
+                HandleFrames(driver);
+            }
+            finally
+            {
+                // Close the browser after the test
+                driver.Quit();
+            }
+        }
+
+        // Method to handle JavaScript Alert
+        static void HandleAlert(IWebDriver driver)
+        {
+            // Assuming there is a button that triggers an alert
+            IWebElement alertButton = driver.FindElement(By.Id("alertButton"));
+            alertButton.Click();
+
+            // Switch to the alert
+            IAlert alert = driver.SwitchTo().Alert();
+
+            // Get alert text
+            string alertText = alert.Text;
+            Console.WriteLine("Alert Text: " + alertText);
+
+            // Accept the alert
+            alert.Accept();
+        }
+
+        // Method to handle Pop-up Window
+        static void HandlePopupWindow(IWebDriver driver)
+        {
+            // Store the current window handle
+            string mainWindowHandle = driver.CurrentWindowHandle;
+
+            // Click on the element that opens a pop-up window
+            IWebElement popupButton = driver.FindElement(By.Id("popupButton"));
+            popupButton.Click();
+
+            // Get all window handles
+            IReadOnlyCollection<string> windowHandles = driver.WindowHandles;
+
+            // Switch to the new window
+            foreach (string windowHandle in windowHandles)
+            {
+                if (windowHandle != mainWindowHandle)
+                {
+                    driver.SwitchTo().Window(windowHandle);
+                    break;
+                }
+            }
+
+            // Perform actions in the pop-up window
+            IWebElement popupElement = driver.FindElement(By.Id("popupElement"));
+            popupElement.Click();
+
+            // Switch back to the main window
+            driver.SwitchTo().Window(mainWindowHandle);
+        }
+
+        // Method to handle Frames
+        static void HandleFrames(IWebDriver driver)
+        {
+            // Switch to the frame by index (assuming it's the first frame)
+            driver.SwitchTo().Frame(0);
+
+            // Perform actions within the frame
+            IWebElement frameElement = driver.FindElement(By.Id("frameElement"));
+            frameElement.Click();
+
+            // Switch back to the default content
+            driver.SwitchTo().DefaultContent();
+        }
+    }
+}

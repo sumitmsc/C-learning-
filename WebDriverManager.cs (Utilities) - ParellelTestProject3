@@ -1,0 +1,21 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+
+namespace SeleniumParallelTests.Utilities
+{
+    public class WebDriverManager
+    {
+        [ThreadStatic]
+        private static IWebDriver driver;
+
+        public static IWebDriver GetWebDriver()
+        {
+            if (driver == null)
+            {
+                driver = new ChromeDriver();
+            }
+            return driver;
+        }
+    }
+}

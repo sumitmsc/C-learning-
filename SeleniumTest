@@ -1,0 +1,49 @@
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+
+class SeleniumTest
+{
+    static void Main(string[] args)
+    {
+        // Set up Chrome WebDriver
+        IWebDriver driver = new ChromeDriver();
+
+        try
+        {
+            // Open a website (e.g., Google)
+            driver.Navigate().GoToUrl("https://www.google.com");
+
+            // Maximize the browser window
+            driver.Manage().Window.Maximize();
+
+            // Locate an element (e.g., the search bar) by name
+            IWebElement searchBox = driver.FindElement(By.Name("q"));
+
+            // Enter text into the search bar
+            searchBox.SendKeys("Selenium C# Example");
+
+            // Submit the search form
+            searchBox.Submit();
+
+            // Wait for a few seconds to see the results
+            System.Threading.Thread.Sleep(3000);
+
+            // Locate and click on an element (e.g., a search result link)
+            IWebElement firstResult = driver.FindElement(By.CssSelector("h3"));
+            firstResult.Click();
+
+            // Wait for another few seconds before closing the browser
+            System.Threading.Thread.Sleep(3000);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error occurred: " + ex.Message);
+        }
+        finally
+        {
+            // Close the browser
+            driver.Quit();
+        }
+    }
+}
