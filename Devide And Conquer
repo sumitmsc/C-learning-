@@ -1,0 +1,28 @@
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        int[] array = { 3, 9, 2, 8, 4, 7, 1 };
+        int maxElement = FindMax(array, 0, array.Length - 1);
+        Console.WriteLine($"The maximum element is: {maxElement}");
+    }
+
+    static int FindMax(int[] arr, int left, int right)
+    {
+        // Base case: Only one element
+        if (left == right)
+            return arr[left];
+
+        // Divide the array into two halves
+        int mid = (left + right) / 2;
+
+        // Conquer: Find the max in both halves
+        int leftMax = FindMax(arr, left, mid);
+        int rightMax = FindMax(arr, mid + 1, right);
+
+        // Combine: Return the larger of the two
+        return Math.Max(leftMax, rightMax);
+    }
+}
