@@ -1,0 +1,34 @@
+
+// HTML File
+//<select>
+ // <option value="IND">India</option>
+  //<option value="US">United States</option>
+//</select>
+
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using System;
+
+namespace DropdownExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            IWebDriver driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+            driver.Navigate().GoToUrl("https://www.facebook.com/");
+
+            IWebElement yearDropdown = driver.FindElement(By.Id("year"));
+            SelectElement selectYear = new SelectElement(yearDropdown);
+
+            selectYear.SelectByIndex(2); // Selecting by index
+            selectYear.SelectByValue("1996"); // Selecting by value
+            selectYear.SelectByText("1998"); // Selecting by visible text
+
+            driver.Quit();
+        }
+    }
+}
+
